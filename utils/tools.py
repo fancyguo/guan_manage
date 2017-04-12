@@ -5,7 +5,7 @@ import datetime
 
 
 def ajax_view(func):
-    @login_required
+    @login_required(login_url='/accounts/login/')
     def _render(req, *args, **kwargs):
         if hasattr(req, "method") and req.method == 'OPTIONS':
             return HttpResponse(dict(data=None), status=200, content_type='application/json')

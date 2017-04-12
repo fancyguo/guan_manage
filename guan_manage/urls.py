@@ -13,10 +13,12 @@ Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+from django.contrib import admin, auth
 from task.views import TaskListView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^register/$', 'user_register'),
     url(r'^task/', TaskListView.as_view()),
 ]

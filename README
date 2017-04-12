@@ -1,0 +1,69 @@
+u"""
+admin interfaces
+
+urlpatterns = [
+    url(r'^$', wrap(self.index), name='index'),
+    url(r'^login/$', self.login, name='login'),
+    url(r'^logout/$', wrap(self.logout), name='logout'),
+    url(r'^password_change/$', wrap(self.password_change, cacheable=True), name='password_change'),
+    url(r'^password_change/done/$', wrap(self.password_change_done, cacheable=True),
+        name='password_change_done'),
+    url(r'^jsi18n/$', wrap(self.i18n_javascript, cacheable=True), name='jsi18n'),
+    url(r'^r/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', wrap(contenttype_views.shortcut),
+        name='view_on_site'),
+]
+"""
+
+u"""
+admindocs interfaces
+
+urlpatterns = [
+    url(r'^$',
+        views.BaseAdminDocsView.as_view(template_name='admin_doc/index.html'),
+        name='django-admindocs-docroot'),
+    url(r'^bookmarklets/$',
+        views.BookmarkletsView.as_view(),
+        name='django-admindocs-bookmarklets'),
+    url(r'^tags/$',
+        views.TemplateTagIndexView.as_view(),
+        name='django-admindocs-tags'),
+    url(r'^filters/$',
+        views.TemplateFilterIndexView.as_view(),
+        name='django-admindocs-filters'),
+    url(r'^views/$',
+        views.ViewIndexView.as_view(),
+        name='django-admindocs-views-index'),
+    url(r'^views/(?P<view>[^/]+)/$',
+        views.ViewDetailView.as_view(),
+        name='django-admindocs-views-detail'),
+    url(r'^models/$',
+        views.ModelIndexView.as_view(),
+        name='django-admindocs-models-index'),
+    url(r'^models/(?P<app_label>[^\.]+)\.(?P<model_name>[^/]+)/$',
+        views.ModelDetailView.as_view(),
+        name='django-admindocs-models-detail'),
+    url(r'^templates/(?P<template>.*)/$',
+        views.TemplateDetailView.as_view(),
+        name='django-admindocs-templates'),
+]
+
+"""
+
+
+u"""
+accounts interfaces
+
+urlpatterns = [
+    url(r'^login/$', views.LoginView.as_view(), name='login'),
+    url(r'^logout/$', views.LogoutView.as_view(), name='logout'),
+
+    url(r'^password_change/$', views.PasswordChangeView.as_view(), name='password_change'),
+    url(r'^password_change/done/$', views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+
+    url(r'^password_reset/$', views.PasswordResetView.as_view(), name='password_reset'),
+    url(r'^password_reset/done/$', views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    url(r'^reset/done/$', views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+]
+"""

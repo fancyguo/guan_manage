@@ -10,7 +10,6 @@ from django.db import transaction
 from django.http import HttpResponse
 
 
-
 class TaskListView(ListView):
     @tools.ajax_view
     def get(self, request, *args, **kwargs):
@@ -20,11 +19,44 @@ class TaskListView(ListView):
                 'code': error_code.USER_NO_LOGIN
             }
         req_type = request.GET.get('type', None)
-        if user.is_superuser():
+        # 超级用户查看所有任务
+        if user.is_superuser:
             return TaskInfo.objects.filter(deleted=False)
+        # 仅查看登录者的任务
         if req_type == 'distributed':
             return get_task_by_user_id(user['id'])
+        # 其它用户查看未分配的任务
         return undistributed_task()
+
+    @tools.ajax_view
+    def put(self, request, *args, **kwargs):
+        user = request.user
+        id = kwargs.get('id')
+        if not id:
+            return {
+                'code': error_code.NO_ID
+            }
+        task = TaskInfo.objects.get(pk=id)
+        data = {
+            'remark': kwargs.get('remark', task.remark)
+        }
+        # 超级用户可以修改任务的所有信息
+        if user.is_superuser:
+            data.update({
+                'name': kwargs.get('name', task.name),
+                'email': kwargs.get('email', task.email),
+                'phone': kwargs.get('phone', task.phone),
+                'status': kwargs.get('status', task.status),
+                'user_id': kwargs.get('user_id', task.user_id)
+            })
+        # 普通用户还可以修改自己任务的状态信息
+        elif user['id'] == task.user_id:
+            data.update({
+                'status': kwargs.get('status', task.status)
+            })
+        task.update(data)
+        return task
+
 
     @tools.ajax_view
     def delete(self, request, *args, ** kwargs):

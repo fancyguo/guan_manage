@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import TaskInfo
 
 
+# 获取指定的任务
 def get_task_by_ids(ids):
     if not ids:
         return []
@@ -11,12 +12,14 @@ def get_task_by_ids(ids):
     return TaskInfo.objects.filter(id__in=ids)
 
 
+# 获取某人的任务
 def get_task_by_user_id(user_id):
-    return TaskInfo.objects.filter(deleted=False, user__id=user_id)
+    return TaskInfo.objects.filter(deleted=False, user_id=user_id)
 
 
+# 未分配任务
 def undistributed_task():
-    return TaskInfo.objects.filter(user__isnull=True, deleted=False)
+    return TaskInfo.objects.filter(user_id__isnull=True, deleted=False)
 
 
 # 删除任务
@@ -36,8 +39,5 @@ def cancel_task(ids):
 # 重新分配
 def redistribute_task(ids, user_id):
     tasks = get_task_by_ids(ids)
-    user = User.objects.get(pk=user_id)
-    if not user:
-        return []
     for task in tasks:
-        task.user.update(user)
+        task.update({'user_id': user_id})
