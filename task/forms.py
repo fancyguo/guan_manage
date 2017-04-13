@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.forms import ModelForm
-from .models import TaskInfo, TaskRelate
+from .models import TaskInfo
 
 
 class TaskInfoForm(ModelForm):
@@ -8,8 +8,3 @@ class TaskInfoForm(ModelForm):
         model = TaskInfo
         exclude = ('email', )
 
-
-class TaskRelateForm(ModelForm):
-    class Meta:
-        model = TaskRelate
-        exclude = ('task_infos', 'user')

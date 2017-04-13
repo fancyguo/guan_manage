@@ -1,6 +1,6 @@
 # coding=utf-8
 import tempfile
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from utils import tools, error_code
 from .db import *
 from .forms import TaskInfoForm

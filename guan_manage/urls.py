@@ -16,9 +16,21 @@ from django.conf.urls import include, url
 from django.contrib import admin, auth
 from task.views import TaskListView
 from django.contrib.auth import views as auth_views
+from .views import user_login, user_logout, user_register
+# urlpatterns = [
+#     url('^auth/', include('django.contrib.auth.urls')),
+# ]
+#
+# urlpatterns += [
+#     # url(r'^admin/', include(admin.site.urls)),
+#     url(r'^$', auth_views.login),
+#     url(r'^register/$', user_register),
+#     url(r'^accounts/$', include(admin.site.urls)),
+#     url(r'^task/', TaskListView.as_view()),
+# ]
 
-urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^register/$', 'user_register'),
-    url(r'^task/', TaskListView.as_view()),
+urlpatters = [
+    url(r'^login/$', user_login),
+    url(r'^logout/$', user_logout),
+    url(r'^tasks/$', TaskListView.as_view()),
 ]

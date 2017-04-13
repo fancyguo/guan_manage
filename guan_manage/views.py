@@ -6,24 +6,26 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 
 
-def login_view(request):
+def user_login(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return "login success"
+        return {'success': True, 'msg': 'login success'}
     else:
-        return "invalid login"
+        return {'success': False, 'msg': 'login error'}
 
 
-def logout_view(request):
+def user_logout(request):
     logout(request)
+    return {'success': True, 'msg': 'logout success'}
 
 
 def user_register(request, *args, **kwargs):
     register_form = UserCreationForm(request.POST)
-    is_exist_username = User.objects.filter(name=register_form.username).exists()
+    username = request.POST.get('username')
+    is_exist_username = User.objects.filter(name=username).exists()
     # 用户名重名
     if is_exist_username:
         register_form.error_messages['username_unique_error'] = 'username is same with other user'
@@ -34,6 +36,7 @@ def user_register(request, *args, **kwargs):
 
     register_form.save(commit=True)
     login(request, register_form)
+    return register_form
 
 
 

@@ -5,12 +5,13 @@ import datetime
 
 
 def ajax_view(func):
-    @login_required(login_url='/accounts/login/')
+    @login_required(login_url='index.html')
     def _render(req, *args, **kwargs):
         if hasattr(req, "method") and req.method == 'OPTIONS':
             return HttpResponse(dict(data=None), status=200, content_type='application/json')
 
         result = func(req, *args, **kwargs)
+        return result
         if isinstance(result, HttpResponse):
             return result
 

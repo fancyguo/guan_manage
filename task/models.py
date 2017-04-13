@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q, F
 
 
-@python_2_unicode_compatible
+# @python_2_unicode_compatible
 class TaskInfo(Base):
     name = models.CharField(max_length=120, default=None, null=True, blank=True)
     email = models.EmailField(default=None, null=True, blank=True)
